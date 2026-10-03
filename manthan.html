@@ -1,0 +1,2661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TGPCE Student Portal | Academic Year 2026-27</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap');
+
+:root{
+    --blue:#2563eb;
+    --cyan:#06b6d4;
+    --dark:#07111f;
+    --dark2:#0b1f3a;
+    --white:#fff;
+    --light:#f4f7fb;
+    --text:#172033;
+    --muted:#6b7280;
+    --border:#e5eaf2;
+    --green:#10b981;
+    --purple:#7c3aed;
+    --orange:#f59e0b;
+    --red:#dc2626;
+    --shadow:0 15px 45px rgba(15,23,42,.10);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Inter,Arial,sans-serif;
+    background:var(--light);
+    color:var(--text);
+}
+
+.hidden{
+    display:none!important;
+}
+
+/* ================= LOGIN ================= */
+
+.login-screen{
+    min-height:100vh;
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:25px;
+    overflow:hidden;
+}
+
+.login-bg{
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(120deg,rgba(3,15,31,.94),rgba(11,70,145,.72)),
+        url("assets/college-building.jpg") center/cover;
+    transform:scale(1.03);
+}
+
+.login-container{
+    width:min(1100px,100%);
+    position:relative;
+    z-index:2;
+    display:grid;
+    grid-template-columns:1fr 440px;
+    gap:60px;
+    align-items:center;
+}
+
+.login-brand{
+    color:#fff;
+}
+
+.logo-circle{
+    width:135px;
+    height:135px;
+    background:#fff;
+    padding:8px;
+    border-radius:50%;
+    box-shadow:0 20px 60px rgba(0,0,0,.35);
+    margin-bottom:25px;
+}
+
+.logo-circle img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    border-radius:50%;
+}
+
+.login-brand h1{
+    font-family:Poppins;
+    font-size:70px;
+    letter-spacing:5px;
+}
+
+.login-brand p{
+    max-width:650px;
+    margin-top:15px;
+    line-height:1.7;
+    font-size:17px;
+    color:#e6edf8;
+}
+
+.dte{
+    display:inline-block;
+    margin-top:20px;
+    padding:9px 15px;
+    border-radius:30px;
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.2);
+    font-size:12px;
+    font-weight:800;
+}
+
+.login-accred{
+    display:flex;
+    gap:12px;
+    margin-top:22px;
+}
+
+.login-accred img{
+    width:90px;
+    height:65px;
+    object-fit:contain;
+    background:#fff;
+    border-radius:12px;
+    padding:6px;
+}
+
+.login-card{
+    background:rgba(255,255,255,.98);
+    padding:30px;
+    border-radius:28px;
+    box-shadow:0 30px 100px rgba(0,0,0,.35);
+}
+
+.auth-tabs{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    background:#eef2f7;
+    padding:5px;
+    border-radius:13px;
+    margin-bottom:25px;
+}
+
+.auth-tab{
+    border:0;
+    background:transparent;
+    padding:13px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:800;
+    color:#64748b;
+}
+
+.auth-tab.active{
+    background:#fff;
+    color:var(--blue);
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+.login-card h2{
+    font-family:Poppins;
+    font-size:26px;
+}
+
+.subtitle{
+    color:var(--muted);
+    font-size:13px;
+    margin:6px 0 20px;
+}
+
+.login-card label{
+    display:block;
+    font-size:12px;
+    font-weight:800;
+    margin:13px 0 7px;
+}
+
+.login-card input,
+.login-card select{
+    width:100%;
+    padding:13px;
+    border:1px solid var(--border);
+    background:#f8fafc;
+    border-radius:10px;
+    outline:none;
+}
+
+.login-card input:focus,
+.login-card select:focus{
+    border-color:var(--blue);
+    box-shadow:0 0 0 3px rgba(37,99,235,.1);
+}
+
+.password-box{
+    position:relative;
+}
+
+.password-box input{
+    padding-right:45px;
+}
+
+.password-box button{
+    position:absolute;
+    right:5px;
+    top:5px;
+    height:36px;
+    width:38px;
+    border:0;
+    background:transparent;
+    cursor:pointer;
+}
+
+.primary-btn{
+    width:100%;
+    border:0;
+    padding:15px;
+    margin-top:20px;
+    border-radius:12px;
+    background:linear-gradient(135deg,var(--blue),var(--cyan));
+    color:#fff;
+    font-weight:900;
+    cursor:pointer;
+    box-shadow:0 10px 25px rgba(37,99,235,.25);
+}
+
+.message{
+    text-align:center;
+    font-size:12px;
+    font-weight:700;
+    margin-top:12px;
+}
+
+.demo{
+    margin-top:18px;
+    padding:12px;
+    border-radius:10px;
+    background:#eff6ff;
+    color:#31527c;
+    font-size:11px;
+    line-height:1.7;
+}
+
+
+/* ================= HEADER ================= */
+
+.header{
+    background:#07111f;
+    color:white;
+    padding:15px 5%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    position:sticky;
+    top:0;
+    z-index:100;
+    box-shadow:0 5px 25px rgba(0,0,0,.2);
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.header-logo{
+    width:55px;
+    height:55px;
+    padding:4px;
+    background:#fff;
+    border-radius:50%;
+}
+
+.header-logo img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    border-radius:50%;
+}
+
+.brand h1{
+    font-family:Poppins;
+    font-size:19px;
+}
+
+.brand p{
+    font-size:10px;
+    color:#aeb9c9;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.year{
+    background:rgba(255,255,255,.08);
+    padding:8px 12px;
+    border-radius:10px;
+    font-size:11px;
+    text-align:center;
+}
+
+.year strong{
+    color:#67e8f9;
+}
+
+.logout{
+    border:1px solid rgba(255,255,255,.2);
+    color:#fff;
+    background:transparent;
+    padding:9px 15px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+
+/* ================= NAV ================= */
+
+.nav{
+    background:#fff;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    gap:5px;
+    padding:10px 5%;
+    overflow-x:auto;
+    position:sticky;
+    top:85px;
+    z-index:90;
+}
+
+.nav a{
+    text-decoration:none;
+    color:#475569;
+    font-size:12px;
+    font-weight:800;
+    white-space:nowrap;
+    padding:9px 13px;
+    border-radius:9px;
+}
+
+.nav a:hover{
+    background:#eff6ff;
+    color:var(--blue);
+}
+
+
+/* ================= MAIN ================= */
+
+main{
+    max-width:1450px;
+    margin:auto;
+    padding:25px 5%;
+}
+
+.hero{
+    min-height:350px;
+    padding:45px;
+    border-radius:25px;
+    background:linear-gradient(110deg,#081b35,#1455a5);
+    color:#fff;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    overflow:hidden;
+    position:relative;
+    box-shadow:var(--shadow);
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    max-width:700px;
+}
+
+.hero-label{
+    color:#38d5ed;
+    font-size:11px;
+    letter-spacing:1.5px;
+    font-weight:900;
+}
+
+.hero h2{
+    font-family:Poppins;
+    font-size:50px;
+    margin:10px 0;
+}
+
+.hero p{
+    color:#d8e6f8;
+    line-height:1.7;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:10px;
+    margin-top:25px;
+}
+
+.hero-btn{
+    text-decoration:none;
+    padding:12px 18px;
+    border-radius:10px;
+    background:#fff;
+    color:#0b1f3a;
+    font-size:12px;
+    font-weight:900;
+}
+
+.hero-btn.outline{
+    color:#fff;
+    background:transparent;
+    border:1px solid rgba(255,255,255,.3);
+}
+
+.hero-accred{
+    display:flex;
+    gap:10px;
+    position:relative;
+    z-index:2;
+}
+
+.hero-accred img{
+    width:100px;
+    height:80px;
+    object-fit:contain;
+    background:#fff;
+    border-radius:14px;
+    padding:7px;
+}
+
+
+/* ================= STATS ================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin:20px 0;
+}
+
+.stat{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:17px;
+    padding:20px;
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.stat-icon{
+    width:45px;
+    height:45px;
+    display:grid;
+    place-items:center;
+    background:#eff6ff;
+    border-radius:12px;
+    font-size:21px;
+}
+
+.stat span{
+    color:var(--muted);
+    font-size:11px;
+    display:block;
+}
+
+.stat strong{
+    display:block;
+    font-size:22px;
+    margin-top:4px;
+}
+
+
+/* ================= SECTIONS ================= */
+
+.section{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:28px;
+    margin:20px 0;
+    box-shadow:0 5px 25px rgba(0,0,0,.035);
+}
+
+.section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:22px;
+}
+
+.section-label{
+    color:var(--blue);
+    font-size:10px;
+    font-weight:900;
+    letter-spacing:1.5px;
+}
+
+.section h2{
+    font-family:Poppins;
+    font-size:25px;
+    margin-top:4px;
+}
+
+.badge{
+    padding:8px 12px;
+    border-radius:30px;
+    background:#ecfdf5;
+    color:#059669;
+    font-size:10px;
+    font-weight:900;
+}
+
+
+/* ================= PROFILE ================= */
+
+.profile{
+    display:grid;
+    grid-template-columns:220px 1fr;
+    gap:30px;
+}
+
+.photo-box{
+    text-align:center;
+}
+
+.photo-box img{
+    width:180px;
+    height:210px;
+    object-fit:cover;
+    border-radius:20px;
+    border:5px solid #eef2f7;
+}
+
+.upload{
+    display:block;
+    width:180px;
+    margin:10px auto;
+    background:#eff6ff;
+    color:var(--blue);
+    padding:9px;
+    border-radius:9px;
+    font-size:11px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.upload input{
+    display:none;
+}
+
+.details{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+}
+
+.detail{
+    border:1px solid var(--border);
+    border-radius:13px;
+    padding:15px;
+    background:#fafcff;
+}
+
+.detail span{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+    margin-bottom:5px;
+}
+
+.detail strong{
+    font-size:13px;
+}
+
+
+/* ================= TIMETABLE ================= */
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    min-width:900px;
+    border-collapse:collapse;
+}
+
+th{
+    background:#0b1f3a;
+    color:white;
+    padding:14px 10px;
+    font-size:12px;
+}
+
+td{
+    border:1px solid #e7ebf1;
+    padding:14px 10px;
+    text-align:center;
+    font-size:12px;
+    font-weight:600;
+}
+
+td:first-child{
+    background:#f8fafc;
+}
+
+.break td{
+    background:linear-gradient(90deg,#dbeafe,#cffafe);
+    color:#075985;
+    font-weight:900;
+}
+
+.last td{
+    background:#f0fdf4;
+}
+
+
+/* ================= ATTENDANCE ================= */
+
+.attendance-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+}
+
+.attendance{
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:18px;
+}
+
+.attendance-top{
+    display:flex;
+    justify-content:space-between;
+}
+
+.attendance h3{
+    font-size:14px;
+}
+
+.attendance small{
+    color:var(--muted);
+}
+
+.percent{
+    font-size:23px;
+    font-weight:900;
+    margin:12px 0 8px;
+}
+
+.progress{
+    height:7px;
+    background:#e9eef5;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress span{
+    display:block;
+    height:100%;
+    background:linear-gradient(90deg,#2563eb,#06b6d4);
+}
+
+
+/* ================= CT ================= */
+
+.tabs{
+    display:flex;
+    gap:8px;
+    margin-bottom:18px;
+}
+
+.tab{
+    padding:10px 20px;
+    border:1px solid var(--border);
+    background:#f8fafc;
+    border-radius:9px;
+    font-weight:900;
+    cursor:pointer;
+}
+
+.tab.active{
+    background:var(--blue);
+    color:#fff;
+}
+
+.panel{
+    display:none;
+}
+
+.panel.active{
+    display:block;
+}
+
+.exam-title{
+    background:#f8fafc;
+    padding:17px;
+    border-radius:13px;
+    margin-bottom:15px;
+}
+
+.papers{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+}
+
+.paper{
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:18px;
+}
+
+.paper-number{
+    color:var(--blue);
+    font-weight:900;
+}
+
+.paper h3{
+    margin:9px 0 5px;
+    font-size:14px;
+}
+
+.paper p{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.paper button{
+    margin-top:12px;
+    border:0;
+    background:#eff6ff;
+    color:var(--blue);
+    padding:8px 11px;
+    border-radius:8px;
+    font-weight:800;
+}
+
+.notice{
+    margin-top:18px;
+    padding:14px;
+    background:#fff7ed;
+    color:#92400e;
+    border-left:4px solid #f59e0b;
+    border-radius:10px;
+    font-size:12px;
+}
+
+
+/* ================= NOTIFICATION ================= */
+
+.notifications{
+    display:grid;
+    gap:12px;
+}
+
+.notification{
+    display:flex;
+    gap:15px;
+    padding:17px;
+    border:1px solid var(--border);
+    border-radius:15px;
+}
+
+.notify-icon{
+    width:45px;
+    height:45px;
+    flex:0 0 45px;
+    display:grid;
+    place-items:center;
+    background:#eff6ff;
+    border-radius:12px;
+    font-size:20px;
+}
+
+.role{
+    font-size:9px;
+    font-weight:900;
+    color:var(--blue);
+}
+
+.notification h3{
+    font-size:14px;
+    margin:4px 0;
+}
+
+.notification p{
+    font-size:11px;
+    color:var(--muted);
+    line-height:1.6;
+}
+
+.notification small{
+    color:#94a3b8;
+    font-size:10px;
+}
+
+
+/* ================= PEOPLE ================= */
+
+.people{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:15px;
+}
+
+.person{
+    border:1px solid var(--border);
+    border-radius:17px;
+    overflow:hidden;
+    transition:.25s;
+}
+
+.person:hover{
+    transform:translateY(-5px);
+    box-shadow:var(--shadow);
+}
+
+.person img{
+    width:100%;
+    height:190px;
+    object-fit:cover;
+}
+
+.person-info{
+    padding:15px;
+}
+
+.person-role{
+    font-size:9px;
+    font-weight:900;
+    color:var(--blue);
+}
+
+.person h3{
+    font-size:13px;
+    margin:6px 0;
+}
+
+.person p{
+    font-size:10px;
+    color:var(--muted);
+}
+
+
+/* ================= UNIT ================= */
+
+.unit-box{
+    background:#eff6ff;
+    border-radius:15px;
+    padding:18px;
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.unit-icon{
+    width:50px;
+    height:50px;
+    display:grid;
+    place-items:center;
+    background:#fff;
+    border-radius:12px;
+    font-size:22px;
+}
+
+.unit-box h3{
+    font-size:15px;
+}
+
+.unit-box p{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:4px;
+}
+
+.unit-papers{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-top:15px;
+}
+
+.unit-paper{
+    border:1px solid var(--border);
+    padding:17px;
+    border-radius:13px;
+}
+
+.unit-paper span,
+.unit-paper strong,
+.unit-paper small{
+    display:block;
+}
+
+.unit-paper span{
+    color:var(--blue);
+    font-weight:900;
+}
+
+.unit-paper strong{
+    margin:8px 0 3px;
+}
+
+.unit-paper small{
+    color:var(--muted);
+}
+
+
+/* ================= FOOTER ================= */
+
+.footer{
+    background:#07111f;
+    color:#fff;
+    padding:35px 5%;
+    display:flex;
+    justify-content:space-between;
+    gap:25px;
+}
+
+.footer p{
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:5px;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:1000px){
+
+    .login-container{
+        grid-template-columns:1fr;
+        max-width:600px;
+    }
+
+    .login-brand{
+        text-align:center;
+    }
+
+    .logo-circle{
+        margin:auto auto 20px;
+    }
+
+    .login-accred{
+        justify-content:center;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .people{
+        grid-template-columns:repeat(3,1fr);
+    }
+}
+
+@media(max-width:700px){
+
+    .login-brand h1{
+        font-size:45px;
+    }
+
+    .header{
+        position:static;
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .header-right{
+        width:100%;
+        justify-content:space-between;
+    }
+
+    .nav{
+        position:static;
+    }
+
+    main{
+        padding:15px;
+    }
+
+    .hero{
+        padding:28px;
+    }
+
+    .hero h2{
+        font-size:35px;
+    }
+
+    .hero-accred{
+        display:none;
+    }
+
+    .profile{
+        grid-template-columns:1fr;
+    }
+
+    .details{
+        grid-template-columns:1fr;
+    }
+
+    .attendance-grid{
+        grid-template-columns:1fr;
+    }
+
+    .papers{
+        grid-template-columns:1fr;
+    }
+
+    .people{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .unit-papers{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .footer{
+        flex-direction:column;
+    }
+}
+
+@media(max-width:450px){
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .people{
+        grid-template-columns:1fr;
+    }
+
+    .unit-papers{
+        grid-template-columns:1fr;
+    }
+
+    .section{
+        padding:18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+
+<!-- =====================================================
+     LOGIN SCREEN
+===================================================== -->
+
+<section id="loginScreen" class="login-screen">
+
+    <div class="login-bg"></div>
+
+    <div class="login-container">
+
+        <div class="login-brand">
+
+            <div class="logo-circle">
+                <img src="assets/college-logo.png" alt="College Logo">
+            </div>
+
+            <h1>TGPCE</h1>
+
+            <p>
+                Tulsiram Gaikwad Patil College of Engineering
+                and Technology, Nagpur
+            </p>
+
+            <span class="dte">
+                DTE CODE : 4151
+            </span>
+
+            <div class="login-accred">
+                <img src="assets/a-plus.png" alt="A+">
+                <img src="assets/nba-logo.png" alt="NBA">
+            </div>
+
+        </div>
+
+
+        <div class="login-card">
+
+            <div class="auth-tabs">
+
+                <button id="loginTab"
+                        class="auth-tab active"
+                        onclick="showLogin()">
+                    Student Login
+                </button>
+
+                <button id="registerTab"
+                        class="auth-tab"
+                        onclick="showRegister()">
+                    New Registration
+                </button>
+
+            </div>
+
+
+            <!-- LOGIN -->
+
+            <div id="loginBox">
+
+                <h2>Welcome Back 👋</h2>
+
+                <p class="subtitle">
+                    Login to your student academic portal
+                </p>
+
+                <form id="loginForm">
+
+                    <label>Email Address</label>
+
+                    <input
+                        id="loginEmail"
+                        type="email"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                    <label>Password</label>
+
+                    <div class="password-box">
+
+                        <input
+                            id="loginPassword"
+                            type="password"
+                            placeholder="Enter password"
+                            required
+                        >
+
+                        <button type="button"
+                                onclick="togglePassword('loginPassword')">
+                            👁
+                        </button>
+
+                    </div>
+
+                    <label>Academic Year</label>
+
+                    <select>
+                        <option>2026 - 27</option>
+                        <option>2025 - 26</option>
+                    </select>
+
+                    <button class="primary-btn" type="submit">
+                        LOGIN TO PORTAL →
+                    </button>
+
+                </form>
+
+                <p id="loginMessage" class="message"></p>
+
+                <div class="demo">
+                    <b>Demo Login</b><br>
+                    Email: student@tgpce.example<br>
+                    Password: TGP@12345
+                </div>
+
+            </div>
+
+
+            <!-- REGISTER -->
+
+            <div id="registerBox" class="hidden">
+
+                <h2>Create Student Account</h2>
+
+                <p class="subtitle">
+                    Register for TGPCE Student Portal
+                </p>
+
+                <form id="registerForm">
+
+                    <label>Full Name</label>
+                    <input id="regName"
+                           type="text"
+                           placeholder="Full Name"
+                           required>
+
+                    <label>Email</label>
+                    <input id="regEmail"
+                           type="email"
+                           placeholder="Email Address"
+                           required>
+
+                    <label>Mobile Number</label>
+                    <input id="regMobile"
+                           type="tel"
+                           placeholder="Mobile Number"
+                           required>
+
+                    <label>Student ID / Roll Number</label>
+                    <input id="regRoll"
+                           type="text"
+                           placeholder="Roll Number"
+                           required>
+
+                    <label>Course / Branch</label>
+
+                    <select id="regCourse" required>
+
+                        <option value="">
+                            Select Course / Branch
+                        </option>
+
+                        <option>CSE</option>
+                        <option>CSE - Cyber Security</option>
+                        <option>AI & Data Science</option>
+                        <option>Information Technology</option>
+
+                    </select>
+
+                    <label>Create Password</label>
+                    <input id="regPassword"
+                           type="password"
+                           placeholder="Create Password"
+                           required>
+
+                    <label>Confirm Password</label>
+                    <input id="regConfirm"
+                           type="password"
+                           placeholder="Confirm Password"
+                           required>
+
+                    <button class="primary-btn" type="submit">
+                        CREATE ACCOUNT →
+                    </button>
+
+                </form>
+
+                <p id="registerMessage" class="message"></p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PORTAL
+===================================================== -->
+
+<section id="portal" class="hidden">
+
+
+<header class="header">
+
+    <div class="brand">
+
+        <div class="header-logo">
+            <img src="assets/college-logo.png" alt="Logo">
+        </div>
+
+        <div>
+            <h1>TGPCE Student Portal</h1>
+
+            <p>
+                Tulsiram Gaikwad Patil College of Engineering
+                & Technology, Nagpur
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="header-right">
+
+        <div class="year">
+            Academic Year<br>
+            <strong>2026 - 27</strong>
+        </div>
+
+        <button class="logout" onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<nav class="nav">
+
+    <a href="#dashboard">🏠 Dashboard</a>
+    <a href="#profile">👨‍🎓 Profile</a>
+    <a href="#timetable">📅 Timetable</a>
+    <a href="#attendance">📊 Attendance</a>
+    <a href="#ct">📄 CT Documents</a>
+    <a href="#notifications">🔔 Notifications</a>
+    <a href="#people">👥 Class Team</a>
+    <a href="#unit1">📝 Unit 1</a>
+
+</nav>
+
+
+<main>
+
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="hero">
+
+    <div class="hero-content">
+
+        <span class="hero-label">
+            STUDENT ACADEMIC PORTAL
+        </span>
+
+        <h2>
+            Welcome,
+            <span id="welcomeName">Student</span> 👋
+        </h2>
+
+        <p>
+            Manage your timetable, attendance, CT documents,
+            notifications and academic information from one place.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="#attendance" class="hero-btn">
+                Check Attendance
+            </a>
+
+            <a href="#timetable" class="hero-btn outline">
+                View Timetable
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="hero-accred">
+
+        <img src="assets/a-plus.png" alt="A+">
+        <img src="assets/nba-logo.png" alt="NBA">
+
+    </div>
+
+</section>
+
+
+<!-- STATS -->
+
+<section class="stats">
+
+    <div class="stat">
+        <div class="stat-icon">📚</div>
+        <div>
+            <span>Subjects</span>
+            <strong>06</strong>
+        </div>
+    </div>
+
+    <div class="stat">
+        <div class="stat-icon">📊</div>
+        <div>
+            <span>Attendance</span>
+            <strong>86%</strong>
+        </div>
+    </div>
+
+    <div class="stat">
+        <div class="stat-icon">📝</div>
+        <div>
+            <span>CT Tests</span>
+            <strong>02</strong>
+        </div>
+    </div>
+
+    <div class="stat">
+        <div class="stat-icon">🔔</div>
+        <div>
+            <span>Notifications</span>
+            <strong>04</strong>
+        </div>
+    </div>
+
+</section>
+
+
+<!-- PROFILE -->
+
+<section id="profile" class="section">
+
+    <div class="section-head">
+
+        <div>
+            <span class="section-label">STUDENT</span>
+            <h2>Student Profile</h2>
+        </div>
+
+    </div>
+
+
+    <div class="profile">
+
+        <div class="photo-box">
+
+            <img id="studentPhoto"
+                 src="assets/student-placeholder.svg"
+                 alt="Student">
+
+            <label class="upload">
+
+                Upload Photo
+
+                <input id="photoInput"
+                       type="file"
+                       accept="image/*">
+
+            </label>
+
+        </div>
+
+
+        <div class="details">
+
+            <div class="detail">
+                <span>Student Name</span>
+                <strong id="profileName">Student</strong>
+            </div>
+
+            <div class="detail">
+                <span>Email</span>
+                <strong id="profileEmail">—</strong>
+            </div>
+
+            <div class="detail">
+                <span>Mobile</span>
+                <strong id="profileMobile">—</strong>
+            </div>
+
+            <div class="detail">
+                <span>Roll Number</span>
+                <strong id="profileRoll">—</strong>
+            </div>
+
+            <div class="detail">
+                <span>Course / Branch</span>
+                <strong id="profileCourse">CSE</strong>
+            </div>
+
+            <div class="detail">
+                <span>Academic Year</span>
+                <strong>2026 - 27</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- TIMETABLE -->
+
+<section id="timetable" class="section">
+
+    <div class="section-head">
+
+        <div>
+            <span class="section-label">WEEKLY SCHEDULE</span>
+            <h2>Class Timetable</h2>
+        </div>
+
+        <span class="badge">● LIVE SCHEDULE</span>
+
+    </div>
+
+
+    <div class="table-wrap">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Time</th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        <b>10:30</b><br>
+                        11:25 AM
+                    </td>
+
+                    <td>Web Designing</td>
+                    <td>PPS</td>
+                    <td>DCD</td>
+                    <td>Physics</td>
+                    <td>Mathematics</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <b>11:25</b><br>
+                        12:30 PM
+                    </td>
+
+                    <td>PPS</td>
+                    <td>Web Designing</td>
+                    <td>Physics</td>
+                    <td>DCD</td>
+                    <td>Generative AI</td>
+
+                </tr>
+
+
+                <!-- ONLY LUNCH BREAK -->
+
+                <tr class="break">
+
+                    <td colspan="6">
+                        🍱 LUNCH / RECESS — 12:30 PM TO 1:00 PM
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <b>1:00</b><br>
+                        1:50 PM
+                    </td>
+
+                    <td>DCD</td>
+                    <td>Physics</td>
+                    <td>Web Designing</td>
+                    <td>Mathematics</td>
+                    <td>PPS</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <b>1:50</b><br>
+                        2:40 PM
+                    </td>
+
+                    <td>Mathematics</td>
+                    <td>DCD</td>
+                    <td>PPS</td>
+                    <td>Generative AI</td>
+                    <td>Web Designing</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <b>2:50</b><br>
+                        3:40 PM
+                    </td>
+
+                    <td>Physics</td>
+                    <td>Mathematics</td>
+                    <td>Generative AI</td>
+                    <td>PPS</td>
+                    <td>DCD</td>
+
+                </tr>
+
+
+                <!-- NO BREAK HERE -->
+
+                <tr class="last">
+
+                    <td>
+                        <b>3:40</b><br>
+                        4:30 PM
+                    </td>
+
+                    <td>Generative AI</td>
+                    <td>Web Designing</td>
+                    <td>Mathematics</td>
+                    <td>Physics</td>
+                    <td>Web Designing Lab</td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- ATTENDANCE -->
+
+<section id="attendance" class="section">
+
+    <div class="section-head">
+
+        <div>
+            <span class="section-label">ACADEMIC RECORD</span>
+            <h2>Attendance</h2>
+        </div>
+
+        <span class="badge">
+            Overall 86%
+        </span>
+
+    </div>
+
+
+    <div class="attendance-grid">
+
+
+        <div class="attendance">
+
+            <div class="attendance-top">
+                <div>
+                    <h3>Web Designing</h3>
+                    <small>24 / 27 Lectures</small>
+                </div>
+
+                <b>89%</b>
+            </div>
+
+            <div class="percent">89%</div>
+
+            <div class="progress">
+                <span style="width:89%"></span>
+            </div>
+
+        </div>
+
+
+        <div class="attendance">
+
+            <div class="attendance-top">
+                <div>
+                    <h3>PPS</h3>
+                    <small>22 / 26 Lectures</small>
+                </div>
+
+                <b>85%</b>
+            </div>
+
+            <div class="percent">85%</div>
+
+            <div class="progress">
+                <span style="width:85%"></span>
+            </div>
+
+        </div>
+
+
+        <div class="attendance">
+
+            <div class="attendance-top">
+                <div>
+                    <h3>DCD</h3>
+                    <small>23 / 27 Lectures</small>
+                </div>
+
+                <b>85%</b>
+            </div>
+
+            <div class="percent">85%</div>
+
+            <div class="progress">
+                <span style="width:85%"></span>
+            </div>
+
+        </div>
+
+
+        <div class="attendance">
+
+            <div class="attendance-top">
+                <div>
+                    <h3>Generative AI</h3>
+                    <small>25 / 28 Lectures</small>
+                </div>
+
+                <b>89%</b>
+            </div>
+
+            <div class="percent">89%</div>
+
+            <div class="progress">
+                <span style="width:89%"></span>
+            </div>
+
+        </div>
+
+
+        <div class="attendance">
+
+            <div class="attendance-top">
+                <div>
+                    <h3>Physics</h3>
+                    <small>21 / 25 Lectures</small>
+                </div>
+
+                <b>84%</b>
+            </div>
+
+            <div class="percent">84%</div>
+
+            <div class="progress">
+                <span style="width:84%"></span>
+            </div>
+
+        </div>
+
+
+        <div class="attendance">
+
+            <div class="attendance-top">
+                <div>
+                    <h3>Mathematics</h3>
+                    <small>23 / 27 Lectures</small>
+                </div>
+
+                <b>85%</b>
+            </div>
+
+            <div class="percent">85%</div>
+
+            <div class="progress">
+                <span style="width:85%"></span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CT DOCUMENTS -->
+
+<section id="ct" class="section">
+
+    <div class="section-head">
+
+        <div>
+            <span class="section-label">EXAM DOCUMENTS</span>
+            <h2>CT Documents</h2>
+        </div>
+
+    </div>
+
+
+    <div class="tabs">
+
+        <button class="tab active"
+                onclick="showCT('ct1',this)">
+            CT-1
+        </button>
+
+        <button class="tab"
+                onclick="showCT('ct2',this)">
+            CT-2
+        </button>
+
+    </div>
+
+
+    <div id="ct1" class="panel active">
+
+        <div class="exam-title">
+
+            <h3>Continuous Test - 1</h3>
+
+            <small>
+                Academic Year 2026-27
+            </small>
+
+        </div>
+
+
+        <div class="papers">
+
+            <div class="paper">
+                <span class="paper-number">01</span>
+                <h3>Web Designing</h3>
+                <p>Question Paper Structure</p>
+                <button>View Document</button>
+            </div>
+
+            <div class="paper">
+                <span class="paper-number">02</span>
+                <h3>PPS</h3>
+                <p>Question Paper Structure</p>
+                <button>View Document</button>
+            </div>
+
+            <div class="paper">
+                <span class="paper-number">03</span>
+                <h3>DCD</h3>
+                <p>Question Paper Structure</p>
+                <button>View Document</button>
+            </div>
+
+            <div class="paper">
+                <span class="paper-number">04</span>
+                <h3>Physics</h3>
+                <p>Question Paper Structure</p>
+                <button>View Document</button>
+            </div>
+
+            <div class="paper">
+                <span class="paper-number">05</span>
+                <h3>Mathematics</h3>
+                <p>Question Paper Structure</p>
+                <button>View Document</button>
+            </div>
+
+        </div>
+
+
+        <div class="notice">
+            ℹ️ Generative AI timetable aur attendance mein hai,
+            lekin CT-1 / CT-2 papers mein included nahi hai.
+        </div>
+
+    </div>
+
+
+    <div id="ct2" class="panel">
+
+        <div class="exam-title">
+
+            <h3>Continuous Test - 2</h3>
+
+            <small>
+                Academic Year 2026-27
+            </small>
+
+        </div>
+
+
+        <div class="papers">
+
+            <div class="paper">
+                <span class="paper-number">01</span>
+                <h3>Web Designing</h3>
+                <p>Question Paper Structure</p>
+                <button>View Document</button>
+            </div>
+
+            <div class="paper">
+                <span class="paper-number">02</span>
+                <h3>PPS</h3>
+                <p>Question Paper Structure</p>
+                <button>View Document</button>
+            </div>
+
+            <div class="paper">
+                <span class="paper-number">03</span>
+                <h3>DCD</h3>
+                <p>Question Paper Structure</p>
+                <button>View Document</button>
+            </div>
+
+            <div class="paper">
+                <span class="paper-number">04</span>
+                <h3>Physics</h3>
+                <p>Question Paper Structure</p>
+                <button>View Document</button>
+            </div>
+
+            <div class="paper">
+                <span class="paper-number">05</span>
+                <h3>Mathematics</h3>
+                <p>Question Paper Structure</p>
+                <button>View Document</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- NOTIFICATIONS -->
+
+<section id="notifications" class="section">
+
+    <div class="section-head">
+
+        <div>
+            <span class="section-label">CAMPUS UPDATES</span>
+            <h2>Notifications</h2>
+        </div>
+
+        <span class="badge">● LIVE</span>
+
+    </div>
+
+
+    <div class="notifications">
+
+
+        <div class="notification">
+
+            <div class="notify-icon">📢</div>
+
+            <div>
+
+                <span class="role">HOD</span>
+
+                <h3>Academic Notice</h3>
+
+                <p>
+                    Students are requested to regularly
+                    check the academic portal for upcoming
+                    academic activities.
+                </p>
+
+                <small>Today • HOD Office</small>
+
+            </div>
+
+        </div>
+
+
+        <div class="notification">
+
+            <div class="notify-icon">👨‍🏫</div>
+
+            <div>
+
+                <span class="role">MENTOR</span>
+
+                <h3>Attendance Update</h3>
+
+                <p>
+                    Students should maintain minimum
+                    required attendance in all subjects.
+                </p>
+
+                <small>Yesterday • Mentor</small>
+
+            </div>
+
+        </div>
+
+
+        <div class="notification">
+
+            <div class="notify-icon">👥</div>
+
+            <div>
+
+                <span class="role">VCR</span>
+
+                <h3>Class Update</h3>
+
+                <p>
+                    Please check the timetable before
+                    attending lectures.
+                </p>
+
+                <small>2 days ago • VCR</small>
+
+            </div>
+
+        </div>
+
+
+        <div class="notification">
+
+            <div class="notify-icon">📚</div>
+
+            <div>
+
+                <span class="role">CR</span>
+
+                <h3>Student Announcement</h3>
+
+                <p>
+                    Unit 1 academic activities will begin
+                    from Monday.
+                </p>
+
+                <small>2 days ago • CR</small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PEOPLE -->
+
+<section id="people" class="section">
+
+    <div class="section-head">
+
+        <div>
+            <span class="section-label">CLASS MANAGEMENT</span>
+            <h2>Class Team</h2>
+        </div>
+
+    </div>
+
+
+    <div class="people">
+
+
+        <div class="person">
+
+            <img src="assets/cr.jpg" alt="CR">
+
+            <div class="person-info">
+
+                <span class="person-role">CR</span>
+
+                <h3>Class Representative</h3>
+
+                <p>Student Representative</p>
+
+            </div>
+
+        </div>
+
+
+        <div class="person">
+
+            <img src="assets/vcr.jpg" alt="VCR">
+
+            <div class="person-info">
+
+                <span class="person-role">VCR</span>
+
+                <h3>Vice Class Representative</h3>
+
+                <p>Student Representative</p>
+
+            </div>
+
+        </div>
+
+
+        <div class="person">
+
+            <img src="assets/class-teacher.jpg"
+                 alt="Class Teacher">
+
+            <div class="person-info">
+
+                <span class="person-role">CLASS TEACHER</span>
+
+                <h3>Class Teacher</h3>
+
+                <p>Faculty Coordinator</p>
+
+            </div>
+
+        </div>
+
+
+        <div class="person">
+
+            <img src="assets/hod.jpg" alt="HOD">
+
+            <div class="person-info">
+
+                <span class="person-role">HOD</span>
+
+                <h3>Head of Department</h3>
+
+                <p>Department Administration</p>
+
+            </div>
+
+        </div>
+
+
+        <div class="person">
+
+            <img src="assets/mentor.jpg" alt="Mentor">
+
+            <div class="person-info">
+
+                <span class="person-role">MENTOR</span>
+
+                <h3>Student Mentor</h3>
+
+                <p>Academic Guidance</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- UNIT 1 -->
+
+<section id="unit1" class="section">
+
+    <div class="section-head">
+
+        <div>
+            <span class="section-label">
+                UPCOMING ACADEMIC ACTIVITY
+            </span>
+
+            <h2>Unit 1</h2>
+        </div>
+
+        <span class="badge">STARTS MONDAY</span>
+
+    </div>
+
+
+    <div class="unit-box">
+
+        <div class="unit-icon">📝</div>
+
+        <div>
+
+            <h3>Unit 1 — Four Paper Schedule</h3>
+
+            <p>
+                Unit 1 academic papers start from Monday.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="unit-papers">
+
+        <div class="unit-paper">
+            <span>01</span>
+            <strong>Paper 1</strong>
+            <small>Monday</small>
+        </div>
+
+        <div class="unit-paper">
+            <span>02</span>
+            <strong>Paper 2</strong>
+            <small>Tuesday</small>
+        </div>
+
+        <div class="unit-paper">
+            <span>03</span>
+            <strong>Paper 3</strong>
+            <small>Wednesday</small>
+        </div>
+
+        <div class="unit-paper">
+            <span>04</span>
+            <strong>Paper 4</strong>
+            <small>Thursday</small>
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+<footer class="footer">
+
+    <div>
+        <strong>TGPCE Student Portal</strong>
+
+        <p>
+            Tulsiram Gaikwad Patil College of Engineering
+            and Technology, Nagpur
+        </p>
+    </div>
+
+    <div>
+        <p>DTE Code: 4151</p>
+        <p>Academic Year 2026-27</p>
+    </div>
+
+    <div>
+        <p>Designed by</p>
+        <strong>Manthan Varma</strong>
+    </div>
+
+</footer>
+
+</section>
+
+
+<script>
+
+/* =====================================================
+   LOGIN / REGISTER
+===================================================== */
+
+const demoUser = {
+    name:"TGPCE Student",
+    email:"student@tgpce.example",
+    mobile:"9876543210",
+    roll:"TGPCE-001",
+    course:"CSE",
+    password:"TGP@12345"
+};
+
+
+function showLogin(){
+
+    document.getElementById("loginBox")
+        .classList.remove("hidden");
+
+    document.getElementById("registerBox")
+        .classList.add("hidden");
+
+    document.getElementById("loginTab")
+        .classList.add("active");
+
+    document.getElementById("registerTab")
+        .classList.remove("active");
+
+}
+
+
+function showRegister(){
+
+    document.getElementById("loginBox")
+        .classList.add("hidden");
+
+    document.getElementById("registerBox")
+        .classList.remove("hidden");
+
+    document.getElementById("loginTab")
+        .classList.remove("active");
+
+    document.getElementById("registerTab")
+        .classList.add("active");
+
+}
+
+
+function togglePassword(id){
+
+    const input=document.getElementById(id);
+
+    input.type =
+        input.type==="password"
+        ? "text"
+        : "password";
+
+}
+
+
+/* =====================================================
+   REGISTER
+===================================================== */
+
+document.getElementById("registerForm")
+.addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    const name =
+        document.getElementById("regName").value.trim();
+
+    const email =
+        document.getElementById("regEmail").value.trim();
+
+    const mobile =
+        document.getElementById("regMobile").value.trim();
+
+    const roll =
+        document.getElementById("regRoll").value.trim();
+
+    const course =
+        document.getElementById("regCourse").value;
+
+    const password =
+        document.getElementById("regPassword").value;
+
+    const confirm =
+        document.getElementById("regConfirm").value;
+
+    const message =
+        document.getElementById("registerMessage");
+
+
+    if(password!==confirm){
+
+        message.style.color="#dc2626";
+
+        message.innerText=
+            "Passwords do not match.";
+
+        return;
+    }
+
+
+    if(password.length<6){
+
+        message.style.color="#dc2626";
+
+        message.innerText=
+            "Password must be at least 6 characters.";
+
+        return;
+    }
+
+
+    let users =
+        JSON.parse(
+            localStorage.getItem("tgpceUsers")
+        ) || [];
+
+
+    if(
+        users.some(
+            u =>
+            u.email.toLowerCase()===
+            email.toLowerCase()
+        )
+    ){
+
+        message.style.color="#dc2626";
+
+        message.innerText=
+            "Email already registered.";
+
+        return;
+    }
+
+
+    users.push({
+        name,
+        email,
+        mobile,
+        roll,
+        course,
+        password
+    });
+
+
+    localStorage.setItem(
+        "tgpceUsers",
+        JSON.stringify(users)
+    );
+
+
+    message.style.color="#059669";
+
+    message.innerText=
+        "Registration successful!";
+
+
+    document.getElementById("registerForm").reset();
+
+
+    setTimeout(()=>{
+
+        showLogin();
+
+        document.getElementById("loginEmail").value=
+            email;
+
+    },900);
+
+});
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+document.getElementById("loginForm")
+.addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    const email =
+        document.getElementById("loginEmail")
+        .value.trim();
+
+    const password =
+        document.getElementById("loginPassword")
+        .value;
+
+    const message =
+        document.getElementById("loginMessage");
+
+
+    let users =
+        JSON.parse(
+            localStorage.getItem("tgpceUsers")
+        ) || [];
+
+
+    let user =
+        users.find(
+            u =>
+            u.email.toLowerCase()===
+            email.toLowerCase() &&
+            u.password===password
+        );
+
+
+    if(
+        !user &&
+        email.toLowerCase()===
+        demoUser.email.toLowerCase() &&
+        password===demoUser.password
+    ){
+
+        user=demoUser;
+
+    }
+
+
+    if(!user){
+
+        message.style.color="#dc2626";
+
+        message.innerText=
+            "Invalid email or password.";
+
+        return;
+    }
+
+
+    localStorage.setItem(
+        "tgpceLoggedIn",
+        JSON.stringify(user)
+    );
+
+
+    message.style.color="#059669";
+
+    message.innerText=
+        "Login successful...";
+
+
+    setTimeout(()=>{
+
+        openPortal(user);
+
+    },500);
+
+});
+
+
+/* =====================================================
+   OPEN PORTAL
+===================================================== */
+
+function openPortal(user){
+
+    document.getElementById("loginScreen")
+        .classList.add("hidden");
+
+    document.getElementById("portal")
+        .classList.remove("hidden");
+
+
+    document.getElementById("welcomeName")
+        .innerText=user.name || "Student";
+
+    document.getElementById("profileName")
+        .innerText=user.name || "Student";
+
+    document.getElementById("profileEmail")
+        .innerText=user.email || "—";
+
+    document.getElementById("profileMobile")
+        .innerText=user.mobile || "—";
+
+    document.getElementById("profileRoll")
+        .innerText=user.roll || "—";
+
+    document.getElementById("profileCourse")
+        .innerText=user.course || "CSE";
+
+
+    const savedPhoto =
+        localStorage.getItem("tgpceStudentPhoto");
+
+    if(savedPhoto){
+
+        document.getElementById("studentPhoto")
+            .src=savedPhoto;
+
+    }
+
+
+    window.scrollTo(0,0);
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout(){
+
+    localStorage.removeItem("tgpceLoggedIn");
+
+    document.getElementById("portal")
+        .classList.add("hidden");
+
+    document.getElementById("loginScreen")
+        .classList.remove("hidden");
+
+    document.getElementById("loginForm")
+        .reset();
+
+    showLogin();
+
+    window.scrollTo(0,0);
+
+}
+
+
+/* =====================================================
+   STUDENT PHOTO
+===================================================== */
+
+document.getElementById("photoInput")
+.addEventListener("change",function(e){
+
+    const file=e.target.files[0];
+
+    if(!file) return;
+
+
+    const reader=new FileReader();
+
+    reader.onload=function(event){
+
+        const image=event.target.result;
+
+        document.getElementById("studentPhoto")
+            .src=image;
+
+        localStorage.setItem(
+            "tgpceStudentPhoto",
+            image
+        );
+
+    };
+
+    reader.readAsDataURL(file);
+
+});
+
+
+/* =====================================================
+   CT TABS
+===================================================== */
+
+function showCT(id,button){
+
+    document
+        .querySelectorAll(".panel")
+        .forEach(panel=>{
+            panel.classList.remove("active");
+        });
+
+
+    document
+        .querySelectorAll(".tab")
+        .forEach(tab=>{
+            tab.classList.remove("active");
+        });
+
+
+    document
+        .getElementById(id)
+        .classList.add("active");
+
+
+    button.classList.add("active");
+
+}
+
+
+/* =====================================================
+   AUTO LOGIN SESSION
+===================================================== */
+
+window.addEventListener("DOMContentLoaded",function(){
+
+    const logged =
+        JSON.parse(
+            localStorage.getItem("tgpceLoggedIn")
+        );
+
+
+    if(logged){
+
+        openPortal(logged);
+
+    }else{
+
+        showLogin();
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
