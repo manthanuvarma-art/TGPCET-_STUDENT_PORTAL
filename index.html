@@ -1,0 +1,286 @@
+from pathlib import Path
+import zipfile, shutil, re
+
+src = Path("/mnt/data/TGP_Student_Portal")
+out = Path("/mnt/data/TGP_Student_Portal_PHP_MySQL")
+if out.exists():
+    shutil.rmtree(out)
+shutil.copytree(src, out)
+
+# Convert frontend to a simple PHP/MySQL-ready portal while retaining the full UI.
+index = out / "index.html"
+html = index.read_text(encoding="utf-8")
+index.unlink()
+index_php = out / "index.php"
+
+# Replace frontend credential JS with secure server-session API calls.
+start = html.index("/* DEFAULT DEMO LOGIN")
+end = html.index('function setupUpload', start)
+
+server_js = r'''/* SERVER LOGIN / REGISTRATION */
+function showAuth(formId){
+  const loginForm=document.getElementById("loginForm"), registerForm=document.getElementById("registerForm");
+  const loginTab=document.getElementById("loginTab"), registerTab=document.getElementById("registerTab");
+  if(formId==="registerForm"){
+    loginForm.classList.add("hidden"); registerForm.classList.remove("hidden");
+    loginTab.classList.remove("active"); registerTab.classList.add("active");
+  }else{
+    registerForm.classList.add("hidden"); loginForm.classList.remove("hidden");
+    registerTab.classList.remove("active"); loginTab.classList.add("active");
+  }
+}
+async function login(){
+  const email=document.getElementById("email").value.trim();
+  const password=document.getElementById("password").value;
+  const error=document.getElementById("loginError");
+  const res=await fetch("api.php",{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({action:"login",email,password})});
+  const data=await res.json();
+  if(data.ok){ location.reload(); }
+  else { error.textContent=data.message||"Invalid email or password."; error.style.display="block"; }
+}
+async function registerStudent(){
+  const payload={
+    action:"register",
+    name:document.getElementById("regName").value.trim(),
+    email:document.getElementById("regEmail").value.trim(),
+    mobile:document.getElementById("regMobile").value.trim(),
+    roll:document.getElementById("regRoll").value.trim(),
+    course:document.getElementById("regCourse").value,
+    password:document.getElementById("regPassword").value,
+    confirm:document.getElementById("regConfirm").value
+  };
+  const msg=document.getElementById("registerMsg");
+  msg.style.display="block"; msg.classList.remove("success-msg");
+  const res=await fetch("api.php",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+  const data=await res.json();
+  msg.textContent=data.message||"";
+  if(data.ok){
+    msg.classList.add("success-msg");
+    setTimeout(()=>{showAuth("loginForm");document.getElementById("email").value=payload.email;},800);
+  }
+}
+async function logout(){
+  await fetch("api.php",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"logout"})});
+  location.reload();
+}
+'''
+
+html = html[:start] + server_js + html[end:]
+
+# Make login screen conditional based on PHP session.
+php_prefix = r'''<?php
+session_start();
+$loggedIn = isset($_SESSION['student_id']);
+$studentName = $_SESSION['student_name'] ?? 'Manthan Varma';
+$studentCourse = $_SESSION['student_course'] ?? 'Engineering';
+?>
+'''
+html = php_prefix + html
+
+html = html.replace('<section id="loginScreen">', '<section id="loginScreen" style="<?php echo $loggedIn ? "display:none" : ""; ?>">', 1)
+html = html.replace('<div id="app">', '<div id="app" style="<?php echo $loggedIn ? "display:block" : "display:none"; ?>">', 1)
+
+# Dynamic profile fields.
+html = html.replace('<div class="info"><span>Name</span><b>Manthan Varma</b></div>',
+                    '<div class="info"><span>Name</span><b><?php echo htmlspecialchars($studentName); ?></b></div>')
+html = html.replace('<div class="info"><span>Course</span><b>Engineering</b></div>',
+                    '<div class="info"><span>Course</span><b><?php echo htmlspecialchars($studentCourse); ?></b></div>')
+
+# Remove old JS persistence/profile helper if present.
+html = re.sub(r'\nfunction loadCurrentStudent\(\)\{.*?\nloadCurrentStudent\(\);\n', '\n', html, flags=re.S)
+
+index_php.write_text(html, encoding="utf-8")
+
+# API
+api = r'''<?php
+session_start();
+header('Content-Type: application/json; charset=utf-8');
+
+$DB_HOST = 'localhost';
+$DB_NAME = 'tgp_portal';
+$DB_USER = 'root';
+$DB_PASS = '';
+
+try {
+    $pdo = new PDO(
+        "mysql:host=$DB_HOST;dbname=$DB_NAME;charset=utf8mb4",
+        $DB_USER,
+        $DB_PASS,
+        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
+    );
+} catch (Throwable $e) {
+    http_response_code(500);
+    echo json_encode(['ok'=>false,'message'=>'Database connection failed. Import database.sql and check DB settings.']);
+    exit;
+}
+
+$data = json_decode(file_get_contents('php://input'), true) ?: [];
+$action = $data['action'] ?? '';
+
+function reply($ok, $message, $extra=[]) {
+    echo json_encode(array_merge(['ok'=>$ok,'message'=>$message], $extra));
+    exit;
+}
+
+if ($action === 'register') {
+    $name = trim($data['name'] ?? '');
+    $email = strtolower(trim($data['email'] ?? ''));
+    $mobile = trim($data['mobile'] ?? '');
+    $roll = trim($data['roll'] ?? '');
+    $course = trim($data['course'] ?? '');
+    $password = $data['password'] ?? '';
+    $confirm = $data['confirm'] ?? '';
+
+    if (!$name || !$email || !$mobile || !$roll || !$course || !$password || !$confirm)
+        reply(false, 'Please fill all registration fields.');
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+        reply(false, 'Please enter a valid email address.');
+    if (!preg_match('/^\d{10}$/', $mobile))
+        reply(false, 'Please enter a valid 10-digit mobile number.');
+    if (strlen($password) < 6)
+        reply(false, 'Password must contain at least 6 characters.');
+    if ($password !== $confirm)
+        reply(false, 'Password and confirm password do not match.');
+
+    $check = $pdo->prepare('SELECT id FROM students WHERE email=? OR roll_no=? LIMIT 1');
+    $check->execute([$email, $roll]);
+    if ($check->fetch())
+        reply(false, 'Email or Roll Number is already registered.');
+
+    $hash = password_hash($password, PASSWORD_DEFAULT);
+    $stmt = $pdo->prepare('INSERT INTO students (name,email,mobile,roll_no,course,password_hash) VALUES (?,?,?,?,?,?)');
+    $stmt->execute([$name,$email,$mobile,$roll,$course,$hash]);
+    reply(true, 'Registration successful! Please login.');
+}
+
+if ($action === 'login') {
+    $email = strtolower(trim($data['email'] ?? ''));
+    $password = $data['password'] ?? '';
+    $stmt = $pdo->prepare('SELECT id,name,course,password_hash FROM students WHERE email=? LIMIT 1');
+    $stmt->execute([$email]);
+    $student = $stmt->fetch();
+
+    if (!$student || !password_verify($password, $student['password_hash']))
+        reply(false, 'Invalid email or password.');
+
+    session_regenerate_id(true);
+    $_SESSION['student_id'] = $student['id'];
+    $_SESSION['student_name'] = $student['name'];
+    $_SESSION['student_course'] = $student['course'];
+    reply(true, 'Login successful.');
+}
+
+if ($action === 'logout') {
+    $_SESSION = [];
+    session_destroy();
+    reply(true, 'Logged out.');
+}
+
+reply(false, 'Invalid request.');
+?>
+'''
+(out / "api.php").write_text(api, encoding="utf-8")
+
+db = r'''CREATE DATABASE IF NOT EXISTS tgp_portal
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+USE tgp_portal;
+
+CREATE TABLE IF NOT EXISTS students (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(120) NOT NULL,
+  email VARCHAR(190) NOT NULL UNIQUE,
+  mobile VARCHAR(20) NOT NULL,
+  roll_no VARCHAR(60) NOT NULL UNIQUE,
+  course VARCHAR(120) NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+'''
+(out / "database.sql").write_text(db, encoding="utf-8")
+
+readme = r'''TGP STUDENT PORTAL - PHP + MySQL
+
+REQUIREMENTS
+- XAMPP (Apache + MySQL)
+- PHP 8.x recommended
+
+INSTALLATION
+1. Copy this entire folder into:
+   C:\xampp\htdocs\TGP_Student_Portal_PHP_MySQL
+
+2. Start Apache and MySQL from XAMPP Control Panel.
+
+3. Open phpMyAdmin:
+   http://localhost/phpmyadmin
+
+4. Import database.sql.
+   It creates the "tgp_portal" database and "students" table.
+
+5. Open:
+   http://localhost/TGP_Student_Portal_PHP_MySQL/
+
+REGISTRATION
+- New Registration stores students in MySQL.
+- Passwords are stored using PHP password_hash().
+- Email and roll number are unique.
+
+LOGIN
+- Login is checked server-side using password_verify().
+- PHP sessions keep the student logged in.
+
+DATABASE SETTINGS
+Default XAMPP settings are already in api.php:
+host=localhost
+database=tgp_portal
+user=root
+password=empty
+
+If your MySQL password is different, edit $DB_PASS in api.php.
+
+IMPORTANT
+This is a local/demo academic portal. For public production deployment, use HTTPS,
+environment variables for DB credentials, CSRF protection, rate limiting, email
+verification, proper role-based access, and server-side authorization for notices
+and staff accounts.
+'''
+(out / "README.txt").write_text(readme, encoding="utf-8")
+
+zip_path = Path("/mnt/data/TGP_Student_Portal_PHP_MySQL.zip")
+with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
+    for p in out.rglob("*"):
+        if p.is_file():
+            z.write(p, p.relative_to(out))
+
+print(zip_path)
+
+
+
+
+
+
+
+
+
+
+
+
+TGP_Student_Portal/
+│
+├── index.php
+├── api.php
+├── database.sql
+│
+└── assets/
+    ├── style.css
+    ├── college-logo-source.jpg
+    ├── college-building.jpg
+    └── accreditation.jpg
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/style.css">
